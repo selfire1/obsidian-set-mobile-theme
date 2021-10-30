@@ -21,7 +21,7 @@ const DEFAULT_SETTINGS: SetMobileThemeSettings = {
   themesObject: "none"
 };
 
-export default class MyPlugin extends Plugin {
+export default class SetMobileThemePlugin extends Plugin {
   settings: SetMobileThemeSettings;
 
   async onload() {
@@ -31,7 +31,7 @@ export default class MyPlugin extends Plugin {
     // Set theme according to device (mobile or not)
     this.setThemeByDevice();
     // Add settings tab so the user can configure various aspects of the plugin
-    this.addSettingTab(new SampleSettingTab(this.app, this));
+    this.addSettingTab(new SetMobileThemeSettingTab(this.app, this));
 
     // Listen for CSS changes (installing a new plugin)
     this.registerEvent(
@@ -92,17 +92,18 @@ export default class MyPlugin extends Plugin {
   }
 }
 
-class SampleSettingTab extends PluginSettingTab {
-  plugin: MyPlugin;
+class SetMobileThemeSettingTab extends PluginSettingTab {
+  plugin: SetMobileThemePlugin;
 
-  constructor(app: App, plugin: MyPlugin) {
+  constructor(app: App, plugin: SetMobileThemePlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
 
   display(): void {
     let { containerEl } = this;
-
+    
+    
     containerEl.createEl("h2", { text: "Set Mobile Theme: Settings" });
     
     containerEl.createEl("h3", { text: "Desktop 🖥" });
