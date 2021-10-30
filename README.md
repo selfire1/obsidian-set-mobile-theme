@@ -1,1 +1,1 @@
-## Obsidian Theme Switcher
+## Mobile Theme Helper

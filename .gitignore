@@ -1,4 +1,5 @@
 .DS_Store
+
 # Intellij
 *.iml
 .idea
@@ -7,12 +8,6 @@
 node_modules
 package-lock.json
 
-# Don't include the compiled main.js file in the repo.
-# They should be uploaded to GitHub releases instead.
-main.js
-
-# Exclude sourcemaps
-*.map
-
-# obsidian
+# build
 data.json
+*.js.map
