@@ -18,6 +18,9 @@ Changing between the [Minimal Theme](https://github.com/kepano/obsidian-minimal)
 * 🌝 [Luna – Dark Mode Helper](https://github.com/selfire1/obsidian-luna-dark-mode): An Obsidian Plugin that switches into Dark Mode based on time or sun position, supporting Mobile.
 * 📱 [Set Mobile Theme](https://github.com/selfire1/obsidian-set-mobile-theme): Load a seperate theme for Obsidian on Desktop and on Mobile.
 
+## Acknowledgements
+* Big thanks to `@kb123` to support in coming up with the name!
+
 ## Support
 You can help me keep creating tools like this by [buying me a coffee](https://www.buymeacoffee.com/joschua).  ☕️
 
