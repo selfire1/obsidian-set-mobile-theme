@@ -13,14 +13,12 @@ interface SetMobileThemeSettings {
   mobileTheme: any;
   desktopTheme: any;
   themesObject: any;
-  mySetting: string;
 }
 
 const DEFAULT_SETTINGS: SetMobileThemeSettings = {
-  mobileTheme: "Obsidian You",
   desktopTheme: "Minimal",
-  themesObject: "none",
-  mySetting: "default"
+  mobileTheme: "Obsidian You",
+  themesObject: "none"
 };
 
 export default class MyPlugin extends Plugin {
@@ -28,14 +26,17 @@ export default class MyPlugin extends Plugin {
 
   async onload() {
     await this.loadSettings();
+    // Load installed themes
     this.loadThemeObject();
+    // Set theme according to device (mobile or not)
     this.setThemeByDevice();
-    // This adds a settings tab so the user can configure various aspects of the plugin
+    // Add settings tab so the user can configure various aspects of the plugin
     this.addSettingTab(new SampleSettingTab(this.app, this));
 
+    // Listen for CSS changes (installing a new plugin)
     this.registerEvent(
       this.app.workspace.on("css-change", () => {
-        console.log("noticed change!")
+        console.log("Set Mobile Theme: Noticed CSS change")
         // @ts-ignore
         if (!this.app.isMobile) {
           // @ts-ignore
@@ -51,6 +52,7 @@ export default class MyPlugin extends Plugin {
 
   }
 
+  // Transformed installed plugins (array) into an object to work with a dropdown menu
   loadThemeObject() {
     // @ts-ignore
     const themeArr = this.app.customCss.themes;
@@ -60,19 +62,21 @@ export default class MyPlugin extends Plugin {
     console.log("Set Mobile Theme: Saved loaded themes");
   }
 
+  // Check if the user is on mobile or desktop and set theme accordingly
   setThemeByDevice() {
     // @ts-ignore
     if (!this.app.isMobile) {
-      console.log("Set to Desktop theme");
+      console.log(`Set to Desktop theme (${this.settings.desktopTheme}`);
       // @ts-ignore
       this.app.customCss.setTheme(this.settings.desktopTheme);
     } else {
-      console.log("Set to Mobile theme");
+      console.log(`Set to Mobile theme (${this.settings.mobileTheme}`);
       // @ts-ignore
       this.app.customCss.setTheme(this.settings.mobileTheme);
     }
   }
 
+  // Simple function to get the key of a value in an object
   getKeyByValue(object: { [x: string]: any }, value: any) {
     return Object.keys(object).find((key) => object[key] === value);
   }
@@ -104,20 +108,23 @@ class SampleSettingTab extends PluginSettingTab {
     containerEl.createEl("h3", { text: "Desktop 🖥" });
     new Setting(containerEl)
       .setName("Desktop Theme")
-      .setDesc("Choose a theme for deskop")
+      .setDesc("Choose a theme for desktop")
       .addDropdown((dropdown) =>
         dropdown
           .addOptions(this.plugin.settings.themesObject)
           .setValue(
-            // @ts-ignore
+            // Find the key to the desktop theme
             this.plugin.getKeyByValue(
               this.plugin.settings.themesObject,
               this.plugin.settings.desktopTheme
             )
           )
           .onChange(async (value) => {
+            this.display();
+
             const themeObj = this.plugin.settings.themesObject;
             this.plugin.settings.desktopTheme = themeObj[value];
+
             await this.plugin.saveSettings();
             this.plugin.setThemeByDevice();
           })
@@ -131,28 +138,19 @@ class SampleSettingTab extends PluginSettingTab {
         dropdown
           .addOptions(this.plugin.settings.themesObject)
           .setValue(
-            // @ts-ignore
             this.plugin.getKeyByValue(
+              // Find the key to the mobile theme
               this.plugin.settings.themesObject,
               this.plugin.settings.mobileTheme
             )
           )
           .onChange(async (value) => {
+            this.display();
             const themeObj = this.plugin.settings.themesObject;
             this.plugin.settings.mobileTheme = themeObj[value];
             await this.plugin.saveSettings();
             this.plugin.setThemeByDevice();
           })
       );
-    
-
-    new Setting(containerEl)
-    .addButton((cb) =>
-      cb
-        .setButtonText("Reload themes")
-        .onClick(() => {
-          this.plugin.loadThemeObject();
-        })
-    );
   }
 }
