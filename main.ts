@@ -66,11 +66,11 @@ export default class MyPlugin extends Plugin {
   setThemeByDevice() {
     // @ts-ignore
     if (!this.app.isMobile) {
-      console.log(`Set to Desktop theme (${this.settings.desktopTheme}`);
+      console.log(`Set to Desktop theme (${this.settings.desktopTheme})`);
       // @ts-ignore
       this.app.customCss.setTheme(this.settings.desktopTheme);
     } else {
-      console.log(`Set to Mobile theme (${this.settings.mobileTheme}`);
+      console.log(`Set to Mobile theme (${this.settings.mobileTheme})`);
       // @ts-ignore
       this.app.customCss.setTheme(this.settings.mobileTheme);
     }
@@ -120,13 +120,12 @@ class SampleSettingTab extends PluginSettingTab {
             )
           )
           .onChange(async (value) => {
-            this.display();
-
             const themeObj = this.plugin.settings.themesObject;
             this.plugin.settings.desktopTheme = themeObj[value];
-
+            
             await this.plugin.saveSettings();
             this.plugin.setThemeByDevice();
+            this.display();
           })
       );
     
@@ -145,11 +144,11 @@ class SampleSettingTab extends PluginSettingTab {
             )
           )
           .onChange(async (value) => {
-            this.display();
             const themeObj = this.plugin.settings.themesObject;
             this.plugin.settings.mobileTheme = themeObj[value];
             await this.plugin.saveSettings();
             this.plugin.setThemeByDevice();
+            this.display();
           })
       );
   }
