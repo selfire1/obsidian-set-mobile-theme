@@ -102,7 +102,7 @@ class SetMobileThemeSettingTab extends PluginSettingTab {
 
   display(): void {
     let { containerEl } = this;
-    
+    containerEl.empty();
     
     containerEl.createEl("h2", { text: "Set Mobile Theme: Settings" });
     
