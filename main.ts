@@ -55,7 +55,7 @@ export default class SetMobileThemePlugin extends Plugin {
   // Transformed installed plugins (array) into an object to work with a dropdown menu
   loadThemeObject() {
     // @ts-ignore
-    const themeArr = this.app.customCss.themes;
+    const themeArr = ["none", ...this.app.customCss.themes];
     const themeObj = Object.assign({}, themeArr);
     this.settings.themesObject = themeObj;
     this.saveSettings();
