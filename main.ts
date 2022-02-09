@@ -17,9 +17,9 @@ interface SetMobileThemeSettings {
 }
 
 const DEFAULT_SETTINGS: SetMobileThemeSettings = {
-  desktopTheme: "Minimal",
+  desktopTheme: "none",
   tabletTheme: "none",
-  mobileTheme: "Obsidian You",
+  mobileTheme: "none",
   themesObject: "none"
 };
 
