@@ -11,12 +11,14 @@ import {
 
 interface SetMobileThemeSettings {
   mobileTheme: any;
+  tabletTheme: any;
   desktopTheme: any;
   themesObject: any;
 }
 
 const DEFAULT_SETTINGS: SetMobileThemeSettings = {
   desktopTheme: "Minimal",
+  tabletTheme: "none",
   mobileTheme: "Obsidian You",
   themesObject: "none"
 };
@@ -141,7 +143,7 @@ class SetMobileThemeSettingTab extends PluginSettingTab {
             // Find the key to the desktop theme
             this.plugin.getKeyByValue(
               this.plugin.settings.themesObject,
-              this.plugin.settings.desktopTheme
+              this.plugin.settings.tabletTheme
             )
           )
           .onChange(async (value) => {
