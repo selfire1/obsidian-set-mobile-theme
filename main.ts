@@ -32,6 +32,8 @@ export default class SetMobileThemePlugin extends Plugin {
     this.loadThemeObject();
     // Add settings tab so the user can configure various aspects of the plugin
     this.addSettingTab(new SetMobileThemeSettingTab(this.app, this));
+    // Set theme according to device (mobile or not)
+    this.setThemeByDevice();
 
     // Listen for CSS changes (installing a new plugin)
     this.registerEvent(
@@ -41,8 +43,6 @@ export default class SetMobileThemePlugin extends Plugin {
       })
     );
 
-    // Set theme according to device (mobile or not)
-    this.setThemeByDevice();
   }
 
   // Transformed installed plugins (array) into an object to work with a dropdown menu
