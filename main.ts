@@ -38,17 +38,8 @@ export default class SetMobileThemePlugin extends Plugin {
     // Listen for CSS changes (installing a new plugin)
     this.registerEvent(
       this.app.workspace.on("css-change", () => {
-        console.log("Set Mobile Theme: Noticed CSS change")
-        // @ts-ignore
-        if (!this.app.isMobile) {
-          // @ts-ignore
-          this.settings.desktopTheme = this.app.customCss.theme;
-          this.saveSettings();
-        } else {
-          // @ts-ignore
-          this.settings.mobileTheme = this.app.customCss.theme;
-          this.saveSettings();
-        }
+        console.log("Set Mobile Theme: Noticed CSS change");
+        this.setThemeByDevice();
         })
     );
 
