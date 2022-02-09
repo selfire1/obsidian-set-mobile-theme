@@ -59,10 +59,19 @@ export default class SetMobileThemePlugin extends Plugin {
   setThemeByDevice() {
     // @ts-ignore
     if (!this.app.isMobile) {
+      // DESKTOP
       console.log(`Set to Desktop theme (${this.settings.desktopTheme})`);
-      // @ts-ignore
+        // @ts-ignore
       this.app.customCss.setTheme(this.settings.desktopTheme);
-    } else {
+        // @ts-ignore
+    } else if (this.app.isMobile && window.matchMedia("(min-width: 400pt)").matches) {
+      // TABLET
+      console.log(`Set to Mobile theme (${this.settings.tabletTheme})`);
+        // @ts-ignore
+      this.app.customCss.setTheme(this.settings.tabletTheme);
+        // @ts-ignore
+    } else if (!this.app.isMobile && window.matchMedia("(max-width: 400pt)").matches) {
+      // MOBILE
       console.log(`Set to Mobile theme (${this.settings.mobileTheme})`);
       // @ts-ignore
       this.app.customCss.setTheme(this.settings.mobileTheme);
