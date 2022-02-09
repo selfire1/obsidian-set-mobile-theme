@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-set-mobile-theme",
 	"name": "Set Mobile Theme",
-	"version": "0.1.0",
+	"version": "0.9.8",
 	"minAppVersion": "0.12.0",
 	"description": "Set seperate themes for desktop and mobile.",
 	"author": "Joschua",
