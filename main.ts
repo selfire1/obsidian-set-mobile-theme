@@ -132,8 +132,8 @@ class SetMobileThemeSettingTab extends PluginSettingTab {
 
     containerEl.createEl("h3", { text: "Tablet 📺" });
     new Setting(containerEl)
-      .setName("Desktop Theme")
-      .setDesc("Choose a theme for desktop")
+      .setName("Tablet Theme")
+      .setDesc("Choose a theme for tablet")
       .addDropdown((dropdown) =>
         dropdown
           .addOptions(this.plugin.settings.themesObject)
