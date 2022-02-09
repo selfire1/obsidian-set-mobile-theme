@@ -129,6 +129,30 @@ class SetMobileThemeSettingTab extends PluginSettingTab {
             this.display();
           })
       );
+
+    containerEl.createEl("h3", { text: "Tablet 📺" });
+    new Setting(containerEl)
+      .setName("Desktop Theme")
+      .setDesc("Choose a theme for desktop")
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOptions(this.plugin.settings.themesObject)
+          .setValue(
+            // Find the key to the desktop theme
+            this.plugin.getKeyByValue(
+              this.plugin.settings.themesObject,
+              this.plugin.settings.desktopTheme
+            )
+          )
+          .onChange(async (value) => {
+            const themeObj = this.plugin.settings.themesObject;
+            this.plugin.settings.desktopTheme = themeObj[value];
+            
+            await this.plugin.saveSettings();
+            this.plugin.setThemeByDevice();
+            this.display();
+          })
+      );
     
     containerEl.createEl("h3", { text: "Mobile 📱" });
     new Setting(containerEl)
