@@ -11,13 +11,15 @@ import {
 
 interface SetMobileThemeSettings {
   mobileTheme: any;
+  tabletTheme: any;
   desktopTheme: any;
   themesObject: any;
 }
 
 const DEFAULT_SETTINGS: SetMobileThemeSettings = {
-  desktopTheme: "Minimal",
-  mobileTheme: "Obsidian You",
+  desktopTheme: "none",
+  tabletTheme: "none",
+  mobileTheme: "none",
   themesObject: "none"
 };
 
@@ -28,26 +30,17 @@ export default class SetMobileThemePlugin extends Plugin {
     await this.loadSettings();
     // Load installed themes
     this.loadThemeObject();
-    // Set theme according to device (mobile or not)
-    this.setThemeByDevice();
     // Add settings tab so the user can configure various aspects of the plugin
     this.addSettingTab(new SetMobileThemeSettingTab(this.app, this));
-
-    // Listen for CSS changes (installing a new plugin)
+    // Set theme according to device (mobile or not)
+    this.setThemeByDevice();
+    
+    // Listen for CSS changes (installing a new theme)
     this.registerEvent(
       this.app.workspace.on("css-change", () => {
-        console.log("Set Mobile Theme: Noticed CSS change")
-        // @ts-ignore
-        if (!this.app.isMobile) {
-          // @ts-ignore
-          this.settings.desktopTheme = this.app.customCss.theme;
-          this.saveSettings();
-        } else {
-          // @ts-ignore
-          this.settings.mobileTheme = this.app.customCss.theme;
-          this.saveSettings();
-        }
-        })
+        // console.log("Set Mobile Theme: Noticed CSS change");
+        this.loadThemeObject();
+      })
     );
 
   }
@@ -59,17 +52,26 @@ export default class SetMobileThemePlugin extends Plugin {
     const themeObj = Object.assign({}, themeArr);
     this.settings.themesObject = themeObj;
     this.saveSettings();
-    console.log("Set Mobile Theme: Saved loaded themes");
+    // console.log("Set Mobile Theme: Saved loaded themes");
   }
 
   // Check if the user is on mobile or desktop and set theme accordingly
   setThemeByDevice() {
     // @ts-ignore
     if (!this.app.isMobile) {
+      // DESKTOP
       console.log(`Set to Desktop theme (${this.settings.desktopTheme})`);
-      // @ts-ignore
+        // @ts-ignore
       this.app.customCss.setTheme(this.settings.desktopTheme);
-    } else {
+        // @ts-ignore
+    } else if (this.app.isMobile && window.matchMedia("(min-width: 400pt)").matches) {
+      // TABLET
+      console.log(`Set to Tablet theme (${this.settings.tabletTheme})`);
+        // @ts-ignore
+      this.app.customCss.setTheme(this.settings.tabletTheme);
+        // @ts-ignore
+    } else if (this.app.isMobile && window.matchMedia("(max-width: 400pt)").matches) {
+      // MOBILE
       console.log(`Set to Mobile theme (${this.settings.mobileTheme})`);
       // @ts-ignore
       this.app.customCss.setTheme(this.settings.mobileTheme);
@@ -123,6 +125,30 @@ class SetMobileThemeSettingTab extends PluginSettingTab {
           .onChange(async (value) => {
             const themeObj = this.plugin.settings.themesObject;
             this.plugin.settings.desktopTheme = themeObj[value];
+            
+            await this.plugin.saveSettings();
+            this.plugin.setThemeByDevice();
+            this.display();
+          })
+      );
+
+    containerEl.createEl("h3", { text: "Tablet 📺" });
+    new Setting(containerEl)
+      .setName("Tablet Theme")
+      .setDesc("Choose a theme for tablet")
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOptions(this.plugin.settings.themesObject)
+          .setValue(
+            // Find the key to the desktop theme
+            this.plugin.getKeyByValue(
+              this.plugin.settings.themesObject,
+              this.plugin.settings.tabletTheme
+            )
+          )
+          .onChange(async (value) => {
+            const themeObj = this.plugin.settings.themesObject;
+            this.plugin.settings.tabletTheme = themeObj[value];
             
             await this.plugin.saveSettings();
             this.plugin.setThemeByDevice();
