@@ -148,7 +148,7 @@ class SetMobileThemeSettingTab extends PluginSettingTab {
           )
           .onChange(async (value) => {
             const themeObj = this.plugin.settings.themesObject;
-            this.plugin.settings.desktopTheme = themeObj[value];
+            this.plugin.settings.tabletTheme = themeObj[value];
             
             await this.plugin.saveSettings();
             this.plugin.setThemeByDevice();
