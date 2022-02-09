@@ -32,14 +32,14 @@ export default class SetMobileThemePlugin extends Plugin {
     this.loadThemeObject();
     // Add settings tab so the user can configure various aspects of the plugin
     this.addSettingTab(new SetMobileThemeSettingTab(this.app, this));
-    
+
     // Listen for CSS changes (installing a new plugin)
     this.registerEvent(
       this.app.workspace.on("css-change", () => {
         console.log("Set Mobile Theme: Noticed CSS change");
         this.setThemeByDevice();
       })
-      );
+    );
 
     // Set theme according to device (mobile or not)
     this.setThemeByDevice();
@@ -66,11 +66,11 @@ export default class SetMobileThemePlugin extends Plugin {
         // @ts-ignore
     } else if (this.app.isMobile && window.matchMedia("(min-width: 400pt)").matches) {
       // TABLET
-      console.log(`Set to Mobile theme (${this.settings.tabletTheme})`);
+      console.log(`Set to Tablet theme (${this.settings.tabletTheme})`);
         // @ts-ignore
       this.app.customCss.setTheme(this.settings.tabletTheme);
         // @ts-ignore
-    } else if (!this.app.isMobile && window.matchMedia("(max-width: 400pt)").matches) {
+    } else if (this.app.isMobile && window.matchMedia("(max-width: 400pt)").matches) {
       // MOBILE
       console.log(`Set to Mobile theme (${this.settings.mobileTheme})`);
       // @ts-ignore
