@@ -34,14 +34,14 @@ export default class SetMobileThemePlugin extends Plugin {
     this.addSettingTab(new SetMobileThemeSettingTab(this.app, this));
     // Set theme according to device (mobile or not)
     this.setThemeByDevice();
-
-    // Listen for CSS changes (installing a new plugin)
-    // this.registerEvent(
-    //   this.app.workspace.on("css-change", () => {
-    //     console.log("Set Mobile Theme: Noticed CSS change");
-    //     this.setThemeByDevice();
-    //   })
-    // );
+    
+    // Listen for CSS changes (installing a new theme)
+    this.registerEvent(
+      this.app.workspace.on("css-change", () => {
+        console.log("Set Mobile Theme: Noticed CSS change");
+        this.loadThemeObject();
+      })
+    );
 
   }
 
